@@ -1,14 +1,14 @@
 export interface PaymentModel{
-    id:number;
+    id?:number;
     walletNumber:string;
     account:number;
     email:string;
-    phone:string | null;
+    phone?:string;
     amount:number;
     currency:string;
-    comment:string | null;
-    status: Status;
-    createdAt:Date;
+    comment?:string;
+    status?: Status;
+    createdAt?:Date;
 }
 
 export enum Status{

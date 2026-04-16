@@ -18,16 +18,11 @@ function PaymentCreate() {
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [disabled, setDisabled] = useState(true)
   const [formData, setFormData] = useState<PaymentModel>({
-    id: 0,
     walletNumber: "",
     account: 0,
     email: "",
-    phone: null,
     amount: 0,
     currency: "USD",
-    comment: null,
-    status: Status.Created,
-    createdAt: new Date()
   });
 
   const currencies = [
