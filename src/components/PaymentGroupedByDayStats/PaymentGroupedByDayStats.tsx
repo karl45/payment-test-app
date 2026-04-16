@@ -5,8 +5,8 @@ import loading from "../../assets/loading.gif";
 
 interface PaymentStatsByDayParams {
   pageSize: number;
-  lastDate?: Date;
-  prevDate?: Date;
+  lastDate?: Date | null;
+  prevDate?: Date | null;
 }
 
 function PaymentGroupedByDayStats() {
@@ -20,9 +20,12 @@ function PaymentGroupedByDayStats() {
   const [isLoading, setIsLoading] = useState(true);
 
   const onNext = () => {
+
+    if (!paymentGroupedByDayStats?.length) return;
+
     setStatsParams((prev) => ({
       ...prev,
-      lastDate: paymentGroupedByDayStats.at(-1).date,
+      lastDate: new Date(paymentGroupedByDayStats.at(-1)!.date),
       prevDate: null,
     }));
   };
@@ -31,7 +34,7 @@ function PaymentGroupedByDayStats() {
     
     setStatsParams((prev) => ({
       ...prev,
-      prevDate: paymentGroupedByDayStats.at(0).date,
+      prevDate: new Date(paymentGroupedByDayStats.at(0)!.date),
       lastDate: null,
     }));
   };

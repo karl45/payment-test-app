@@ -135,9 +135,10 @@ function PaymentCreate() {
         });
       }
     } catch (error) {
+      const message = error instanceof Error ? error.message : "Произошла ошибка";
       setServerNotification({
         type: NotificationType.Error,
-        message: error.message || "Произошла ошибка",
+        message: message,
       });
     }
   };

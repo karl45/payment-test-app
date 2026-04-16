@@ -5,8 +5,8 @@ import "./PaymentHistory.css";
 import loading from "../../assets/loading.gif";
 interface PaymentParams {
   pageSize: number;
-  lastId: number;
-  prevId: number;
+  lastId: number | undefined;
+  prevId: number | undefined;
 }
 
 function PaymentHistory() {
@@ -54,7 +54,7 @@ function PaymentHistory() {
   const onNext = () => {
     setParams((prev) => ({
       ...prev,
-      lastId: payments.at(-1).id,
+      lastId: payments.at(-1)!.id,
       prevId: 0,
     }));
   };
@@ -62,7 +62,7 @@ function PaymentHistory() {
   const onPrev = () => {
     setParams((prev) => ({
       ...prev,
-      prevId: payments.at(0).id,
+      prevId: payments.at(0)!.id,
       lastId: 0,
     }));
   };
@@ -113,7 +113,7 @@ function PaymentHistory() {
                     <td>{payment.currency}</td>
                     <td>{payment.status}</td>
                     <td>{payment.comment}</td>
-                    <td>{new Date(payment.createdAt).toLocaleString()}</td>
+                    <td>{new Date(payment.createdAt!).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
