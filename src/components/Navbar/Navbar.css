@@ -1,0 +1,12 @@
+.navbar{
+    padding: 5vh;
+    display: flex;
+    gap:80px;
+}
+
+.nav-links{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

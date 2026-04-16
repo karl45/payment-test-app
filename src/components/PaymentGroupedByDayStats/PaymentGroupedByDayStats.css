@@ -1,0 +1,5 @@
+.stats_by_day{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

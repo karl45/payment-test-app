@@ -1,0 +1,14 @@
+.stats{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.common_stats{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.loading-state img{
+    width: 30px;
+}

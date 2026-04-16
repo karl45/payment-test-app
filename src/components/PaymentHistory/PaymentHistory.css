@@ -1,0 +1,17 @@
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.table_wrapper{
+    display: flex;
+    justify-content: center;
+}
+.custom-table{
+  width: 100%;
+  border-collapse: collapse; 
+}
+
+.loading-state img{
+    width: 30px;
+}
