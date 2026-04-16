@@ -10,3 +10,5 @@ npm install
 npm run dev
 ```
 # On browser go to  http://localhost:5173/
+
+# Static Signature Key in .env file(VITE_SECRET_KEY)
