@@ -17,7 +17,7 @@ a {
   color: white;
   border: 1px solid white;
   border-radius: 1vh;
-  width: 1vh;
+  padding-inline: 1vh;
   background-color: black;
 }
 
