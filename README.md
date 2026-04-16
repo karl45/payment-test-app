@@ -1,10 +1,8 @@
 # Node.js version v24.13.1 (Install from Internet if not exists)
-# npm version 11.10.0 (Installed with Node.js, don't pay attention, just check it by 
+# npm version 11.10.0 (Installed with Node.js, don't pay attention, just check it by command
 ```
 npm -v
-command
- )
-
+```
 # React deploy
 ```bash
 npm install
