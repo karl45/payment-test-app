@@ -1,5 +1,5 @@
 import "./PaymentCreate.css";
-import {type PaymentModel } from "../../Models/PaymentModel";
+import { type PaymentModel } from "../../Models/PaymentModel";
 import { VITE_SERVER_URL, VITE_SECRET_KEY } from "../../../api";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ enum NotificationType {
 function PaymentCreate() {
   const [serverNotification, setServerNotification] = useState<Notification>();
   const [errors, setErrors] = useState<ValidationErrors>({});
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
   const [formData, setFormData] = useState<PaymentModel>({
     walletNumber: "",
     account: 0,
@@ -44,33 +44,23 @@ function PaymentCreate() {
     if (data.walletNumber.length < 8) {
       errors.walletNumber =
         "Номер кошелька должен содержать минимум 8 символов";
-    }
-
-    else if (data.account <= 0) {
+    } else if (data.account <= 0) {
       errors.account = "Номер счета должен быть положительным числом";
-    }
-
-
-    else if (!data.email) {
+    } else if (!data.email) {
       errors.email = "Email обязателен";
     } else if (!emailRegex.test(data.email)) {
       errors.email = "Введите корректный email";
-    }
-
-    else if (data.amount <= 0) {
+    } else if (data.amount <= 0) {
       errors.amount = "Сумма должна быть больше 0";
-    }
-
-    else if (data.currency.length !== 3) {
+    } else if (data.currency.length !== 3) {
       errors.currency =
         "Валюта должна быть в формате ISO (3 символа, например: RUB, USD)";
     }
 
-     if (data.phone) {
-      if(data.phone.length !== 12){
-        errors.phone = "Для номера телефона нужно 12 символов"
-      }
-      else if (!phoneRegex.test(data.phone)) {
+    if (data.phone) {
+      if (data.phone.length !== 12) {
+        errors.phone = "Для номера телефона нужно 12 символов";
+      } else if (!phoneRegex.test(data.phone)) {
         errors.phone = "Введите корректный номер телефона (+7XXXXXXXXXX)";
       }
     }
@@ -88,16 +78,14 @@ function PaymentCreate() {
 
     const nextFormData = {
       ...formData,
-      [name]: type === 'number' ? (value === "" ? "" : Number(value)) : value,
+      [name]: type === "number" ? (value === "" ? "" : Number(value)) : value,
     };
 
     setFormData(nextFormData);
     const validationResult = validatePayment(nextFormData);
-        
-    if(validationResult.isValid)
-        setDisabled(false);
-    else
-       setDisabled(true);
+
+    if (validationResult.isValid) setDisabled(false);
+    else setDisabled(true);
 
     setErrors(validationResult.errors);
   };
@@ -131,14 +119,29 @@ function PaymentCreate() {
           type: NotificationType.Error,
           message: "Нелегитимный запрос. Сервер отклонил платеж",
         });
-      } else {
+      } else if (response.status == 403) {
         setServerNotification({
           type: NotificationType.Error,
-          message: "Сервер отклонил платеж! Поля имеют неверный формат данных",
+          message: "Неверный ключ шифрования. Сервер отклонил платеж",
+        });
+      } else {
+        const result = await response.json();
+
+        const errorMessage = Object.entries(result.errors)
+          .filter(([key]) => key !== "paymentModel")
+          .map(([_, messages]) => messages)
+          .flat()
+          .join("\n, ");
+
+        setServerNotification({
+          type: NotificationType.Error,
+          message: `Поля имеют неверный формат данных.\n 
+                   ${errorMessage}`,
         });
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Произошла ошибка";
+      const message =
+        error instanceof Error ? error.message : "Произошла ошибка";
       setServerNotification({
         type: NotificationType.Error,
         message: message,
@@ -146,7 +149,10 @@ function PaymentCreate() {
     }
   };
 
-  async function generateSignature(body: PaymentModel, secret: string | undefined) {
+  async function generateSignature(
+    body: PaymentModel,
+    secret: string | undefined,
+  ) {
     const encoder = new TextEncoder();
     const keyData = encoder.encode(secret);
     const bodyData = encoder.encode(JSON.stringify(body));
@@ -198,6 +204,9 @@ function PaymentCreate() {
               onChange={handleChange}
               type="number"
               placeholder="Введите Id аккаунта"
+              onKeyDown={(e) =>
+                ["e", "E", "+", "-",".",","].includes(e.key) && e.preventDefault()
+              }
             />
             {errors.account && (
               <span className="error_message">{errors.account}</span>
@@ -222,7 +231,7 @@ function PaymentCreate() {
             <span>Phone:</span>
             <input
               name="phone"
-              value={formData.phone ?? ''}
+              value={formData.phone ?? ""}
               onChange={handleChange}
               type="tel"
               placeholder="+7XXXXXXXXXX"
@@ -240,6 +249,9 @@ function PaymentCreate() {
               onChange={handleChange}
               type="number"
               placeholder="Введите сумму платежа"
+              onKeyDown={(e) =>
+                ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
+              }
             />
             {errors.amount && (
               <span className="error_message">{errors.amount}</span>
@@ -270,7 +282,7 @@ function PaymentCreate() {
 
             <input
               name="comment"
-              value={formData.comment ?? ''}
+              value={formData.comment ?? ""}
               onChange={handleChange}
               type="text"
               placeholder="Введите комментарий"
@@ -279,7 +291,9 @@ function PaymentCreate() {
               <span className="error_message">{errors.comment}</span>
             )}
           </div>
-          <button type="submit" disabled={disabled}>Создать платеж</button>
+          <button type="submit" disabled={disabled}>
+            Создать платеж
+          </button>
         </form>
       </div>
     </>
