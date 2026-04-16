@@ -1,7 +1,6 @@
 .pagination{
     display: flex;
     justify-content: space-between;
-    width: 100%;
 }
 .table_wrapper{
     display: flex;
@@ -14,4 +13,17 @@
 
 .loading-state img{
     width: 30px;
+}
+
+.nav_button{
+    background-color: white;
+    outline: none;
+    width: 10vh;
+    border: 1px solid black;
+}
+
+.nav_button:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
 }

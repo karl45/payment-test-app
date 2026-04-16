@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { PaymentGroupedByDayStatsModel } from "../../Models/PaymentStatsModel";
 import { VITE_SERVER_URL } from "../../../api";
 import loading from "../../assets/loading.gif";
+import './PaymentGroupedByDayStats.css';
 
 interface PaymentStatsByDayParams {
   pageSize: number;
@@ -14,7 +15,7 @@ function PaymentGroupedByDayStats() {
     PaymentGroupedByDayStatsModel[]
   >([]);
   const [statsParams, setStatsParams] = useState<PaymentStatsByDayParams>({
-    pageSize: 10,
+    pageSize: 2,
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -88,7 +89,7 @@ function PaymentGroupedByDayStats() {
       ) : (
         <div className="stats_by_day">
           <h3>Статистика платежей по дням:</h3>
-          <table>
+          <table className="custom_table">
             <thead>
               <tr>
                 <th>День</th>
@@ -111,10 +112,10 @@ function PaymentGroupedByDayStats() {
             </tbody>
           </table>
           <div className="pagination">
-            <button className="prev" onClick={onPrev}>
+            <button className="nav_button" onClick={onPrev}>
               Prev
             </button>
-            <button className="next" onClick={onNext}>
+            <button className="nav_button" onClick={onNext}>
               Next
             </button>
           </div>

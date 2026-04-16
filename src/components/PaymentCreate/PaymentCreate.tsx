@@ -1,5 +1,5 @@
 import "./PaymentCreate.css";
-import { Status, type PaymentModel } from "../../Models/PaymentModel";
+import {type PaymentModel } from "../../Models/PaymentModel";
 import { VITE_SERVER_URL, VITE_SECRET_KEY } from "../../../api";
 import { useState } from "react";
 
@@ -67,7 +67,10 @@ function PaymentCreate() {
     }
 
      if (data.phone) {
-      if (!phoneRegex.test(data.phone)) {
+      if(data.phone.length !== 12){
+        errors.phone = "Для номера телефона нужно 12 символов"
+      }
+      else if (!phoneRegex.test(data.phone)) {
         errors.phone = "Введите корректный номер телефона (+7XXXXXXXXXX)";
       }
     }
@@ -180,6 +183,7 @@ function PaymentCreate() {
               value={formData.walletNumber}
               onChange={handleChange}
               type="text"
+              placeholder="Введите номер кошелька"
             />
             {errors.walletNumber && (
               <span className="error_message">{errors.walletNumber}</span>
@@ -193,6 +197,7 @@ function PaymentCreate() {
               value={formData.account}
               onChange={handleChange}
               type="number"
+              placeholder="Введите Id аккаунта"
             />
             {errors.account && (
               <span className="error_message">{errors.account}</span>
@@ -206,6 +211,7 @@ function PaymentCreate() {
               value={formData.email}
               onChange={handleChange}
               type="email"
+              placeholder="Введите email"
             />
             {errors.email && (
               <span className="error_message">{errors.email}</span>
@@ -220,7 +226,6 @@ function PaymentCreate() {
               onChange={handleChange}
               type="tel"
               placeholder="+7XXXXXXXXXX"
-              required
             />
             {errors.phone && (
               <span className="error_message">{errors.phone}</span>
@@ -234,7 +239,7 @@ function PaymentCreate() {
               value={formData.amount}
               onChange={handleChange}
               type="number"
-              required
+              placeholder="Введите сумму платежа"
             />
             {errors.amount && (
               <span className="error_message">{errors.amount}</span>
@@ -268,6 +273,7 @@ function PaymentCreate() {
               value={formData.comment ?? ''}
               onChange={handleChange}
               type="text"
+              placeholder="Введите комментарий"
             />
             {errors.comment && (
               <span className="error_message">{errors.comment}</span>

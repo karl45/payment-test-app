@@ -120,10 +120,10 @@ function PaymentHistory() {
             </table>
           </div>
           <div className="pagination">
-            <button className="prev" onClick={onPrev}>
+            <button className="nav_button" onClick={onPrev}>
               Prev
             </button>
-            <button className="next" onClick={onNext}>
+            <button className="nav_button" onClick={onNext}>
               Next
             </button>
           </div>

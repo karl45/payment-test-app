@@ -3,3 +3,22 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.custom-table{
+  width: 100%;
+  border-collapse: collapse; 
+}
+
+
+.nav_button{
+    background-color: white;
+    outline: none;
+    width: 10vh;
+    border: 1px solid black;
+}
+
+.nav_button:hover{
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}

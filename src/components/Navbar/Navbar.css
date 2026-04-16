@@ -1,12 +1,27 @@
-.navbar{
-    padding: 5vh;
-    display: flex;
-    gap:80px;
+.navbar {
+  padding: 5vh;
+  display: flex;
+  gap: 8vh;
+  background-color: black;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 3vh;
+  align-items: center;
+  width: 100%;
 }
 
-.nav-links{
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+a {
+  text-decoration: none;
+  color: white;
+  border: 1px solid white;
+  border-radius: 1vh;
+  width: 1vh;
+  background-color: black;
+}
+
+a:hover {
+  color: black;
+  background-color: white;
 }
