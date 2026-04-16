@@ -5,8 +5,8 @@ import loading from "../../assets/loading.gif";
 
 interface PaymentStatsByDayParams {
   pageSize: number;
-  lastId: number;
-  prevId: number;
+  lastDate?: Date;
+  prevDate?: Date;
 }
 
 function PaymentGroupedByDayStats() {
@@ -15,8 +15,6 @@ function PaymentGroupedByDayStats() {
   >([]);
   const [statsParams, setStatsParams] = useState<PaymentStatsByDayParams>({
     pageSize: 10,
-    lastId: 0,
-    prevId: 0,
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -24,16 +22,17 @@ function PaymentGroupedByDayStats() {
   const onNext = () => {
     setStatsParams((prev) => ({
       ...prev,
-      lastId: paymentGroupedByDayStats.at(-1).id,
-      prevId: 0,
+      lastDate: paymentGroupedByDayStats.at(-1).date,
+      prevDate: null,
     }));
   };
 
   const onPrev = () => {
+    
     setStatsParams((prev) => ({
       ...prev,
-      prevId: paymentGroupedByDayStats.at(0).id,
-      lastId: 0,
+      prevDate: paymentGroupedByDayStats.at(0).date,
+      lastDate: null,
     }));
   };
 
@@ -42,8 +41,14 @@ function PaymentGroupedByDayStats() {
       try {
         setIsLoading(true);
 
+        const urlParams = new URLSearchParams();
+
+        urlParams.append("pageSize", paymentParams.pageSize.toString());
+        if (paymentParams.prevDate) urlParams.append("prevDate", new Date(paymentParams.prevDate).toISOString());
+        if (paymentParams.lastDate) urlParams.append("lastDate", new Date(paymentParams.lastDate).toISOString());
+
         const paramString = new URLSearchParams(
-          paymentParams as Record<string, any>,
+          urlParams as Record<string, any>,
         ).toString();
 
         const response = await fetch(
@@ -69,7 +74,7 @@ function PaymentGroupedByDayStats() {
     };
 
     fetchStatsByDay(statsParams);
-  }, []);
+  }, [statsParams]);
 
   return (
     <>
@@ -90,7 +95,7 @@ function PaymentGroupedByDayStats() {
             </thead>
             <tbody>
               {paymentGroupedByDayStats.map((paymentGroupedByDayStats) => (
-                <tr key={paymentGroupedByDayStats.id}>
+                <tr key={new Date(paymentGroupedByDayStats.date).toLocaleDateString()}>
                   <td>
                     {new Date(
                       paymentGroupedByDayStats.date,

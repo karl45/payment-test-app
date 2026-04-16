@@ -4,7 +4,6 @@ export interface PaymentCommonStatsModel{
 }
 
 export interface PaymentGroupedByDayStatsModel extends PaymentCommonStatsModel{
-    id:number;
     date:Date;
 }
 
