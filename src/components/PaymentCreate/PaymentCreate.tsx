@@ -14,7 +14,7 @@ enum NotificationType {
 }
 
 function PaymentCreate() {
-  const [serverNotification, setServerNotification] = useState<Notification>();
+  const [serverNotification, setServerNotification] = useState<Notification | null>();
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [disabled, setDisabled] = useState(true);
   const [formData, setFormData] = useState<PaymentModel>({
@@ -96,6 +96,7 @@ function PaymentCreate() {
   };
 
   const onSubmit = async (payment: PaymentModel) => {
+    setServerNotification(null);
     payment.createdAt = new Date();
 
     try {
