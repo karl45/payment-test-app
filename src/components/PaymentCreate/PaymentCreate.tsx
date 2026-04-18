@@ -13,6 +13,10 @@ enum NotificationType {
   Success,
 }
 
+interface CreatePaymentDtoRequest {
+  payment: PaymentModel;
+}
+
 function PaymentCreate() {
   const [serverNotification, setServerNotification] = useState<Notification | null>();
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -97,17 +101,17 @@ function PaymentCreate() {
 
   const onSubmit = async (payment: PaymentModel) => {
     setServerNotification(null);
-    payment.createdAt = new Date();
+    const request: CreatePaymentDtoRequest = { payment };
 
     try {
-      const signature = await generateSignature(payment, VITE_SECRET_KEY);
+      const signature = await generateSignature(request, VITE_SECRET_KEY);
       const response = await fetch(`${VITE_SERVER_URL}/payments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-Signature": signature,
         },
-        body: JSON.stringify(payment),
+        body: JSON.stringify(request),
       });
 
       if (response.ok) {
@@ -151,7 +155,7 @@ function PaymentCreate() {
   };
 
   async function generateSignature(
-    body: PaymentModel,
+    body: CreatePaymentDtoRequest,
     secret: string | undefined,
   ) {
     const encoder = new TextEncoder();

@@ -68,7 +68,7 @@ function PaymentGroupedByDayStats() {
           if (response.status === 204) return;
 
           const result = await response.json();
-          setPaymentGroupedByDayStats(result);
+          setPaymentGroupedByDayStats(result.dayStats);
         }
       } catch (error) {
         console.error("Ошибка при загрузке:", error);

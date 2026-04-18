@@ -39,7 +39,7 @@ function PaymentHistory() {
           if (response.status === 204) return;
 
           const result = await response.json();
-          setPayments(result);
+          setPayments(result.payments);
         }
       } catch (error) {
         console.error("Ошибка при загрузке:", error);

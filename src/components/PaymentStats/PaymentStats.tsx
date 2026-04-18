@@ -27,7 +27,7 @@ function PaymentStats() {
           if (response.status === 204) return;
 
           const result = await response.json();
-          setPaymentStats(result);
+          setPaymentStats(result.paymentCommonStats);
         }
       } catch (error) {
         console.error("Ошибка при загрузке:", error);
