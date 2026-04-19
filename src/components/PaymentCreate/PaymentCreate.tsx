@@ -17,6 +17,9 @@ interface CreatePaymentDtoRequest {
   payment: PaymentModel;
 }
 
+type ValidationErrors = Partial<Record<keyof PaymentModel, string>>;
+
+
 function PaymentCreate() {
   const [serverNotification, setServerNotification] = useState<Notification | null>();
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -36,7 +39,6 @@ function PaymentCreate() {
     { code: "KZT" },
   ];
 
-  type ValidationErrors = Partial<Record<keyof PaymentModel, string>>;
 
   const validatePayment = (
     data: PaymentModel,
