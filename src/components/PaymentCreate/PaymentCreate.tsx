@@ -45,14 +45,16 @@ function PaymentCreate() {
   ): { isValid: boolean; errors: ValidationErrors } => {
     const errors: ValidationErrors = {};
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const phoneRegex = /^\+7\d{3}\d{3}\d{2}\d{2}$/;
+    const phoneRegex = /^\+7\d{10}$/;
 
     if (data.walletNumber.length < 8) {
       errors.walletNumber =
         "Номер кошелька должен содержать минимум 8 символов";
-    } else if (data.account <= 0) {
-      errors.account = "Номер счета должен быть положительным числом";
-    } else if (!data.email) {
+    } 
+    else if (data.account <= 0) {
+      errors.account = "Номер аккаунта должен быть положительным числом";
+    }
+     else if (!data.email) {
       errors.email = "Email обязателен";
     } else if (!emailRegex.test(data.email)) {
       errors.email = "Введите корректный email";
